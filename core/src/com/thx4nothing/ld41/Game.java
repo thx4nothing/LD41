@@ -1,7 +1,6 @@
 package com.thx4nothing.ld41;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,6 +8,9 @@ import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.thx4nothing.ld41.entities.Enemy;
+import com.thx4nothing.ld41.entities.Player;
+import com.thx4nothing.ld41.levels.BattleWorld;
 import com.thx4nothing.ld41.levels.Level;
 import com.thx4nothing.ld41.levels.OverWorld;
 import com.thx4nothing.ld41.util.Assets;
@@ -29,6 +31,8 @@ public class Game extends ApplicationAdapter {
 	public static MessageDispatcher dispatcher = new MessageDispatcher();
 
 	public Level level;
+	public Level battleWorld;
+	public Level overWorld;
 
 	@Override public void create() {
 		g = this;
@@ -38,7 +42,8 @@ public class Game extends ApplicationAdapter {
 		fpslogger = new FPSLogger();
 		Gdx.input.setInputProcessor(input);
 		engine = new Engine();
-		level = new OverWorld();
+		overWorld = new OverWorld();
+		level = overWorld;
 		level.init();
 	}
 
@@ -63,6 +68,13 @@ public class Game extends ApplicationAdapter {
 		manager.dispose();
 	}
 
-	public void initBattle(Entity e) {
+	public void initBattle(Player p, Enemy e) {
+		battleWorld = new BattleWorld(p, e);
+		battleWorld.init();
+		level = battleWorld;
+	}
+
+	public void endBattle() {
+		level = overWorld;
 	}
 }

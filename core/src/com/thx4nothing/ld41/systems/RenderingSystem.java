@@ -7,12 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.components.TextureComponent;
-import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.Mappers;
 import net.dermetfan.gdx.maps.MapUtils;
 
@@ -42,24 +42,13 @@ public class RenderingSystem extends IteratingSystem {
 		}
 	};
 
-	@SuppressWarnings("unchecked") public RenderingSystem() {
+	@SuppressWarnings("unchecked") public RenderingSystem(TiledMap map) {
 		super(Family.all(PositionComponent.class, TextureComponent.class).get());
 		this.batch = new SpriteBatch();
 		sr = new ShapeRenderer();
 		renderQueue = new Array<Entity>();
 
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		worldWidth = (int) (MapUtils.size(Assets.MAP).x * UNIT_SIZE);
-		worldHeight = (int) (MapUtils.size(Assets.MAP).y * UNIT_SIZE);
-		camera = new OrthographicCamera(worldWidth, worldWidth * (h / w));
-		viewport = new FitViewport(worldWidth, worldWidth * (h / w), camera);
-		camera.position.set(1, 1, 0);//camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-		camera.zoom = 0.4f;
-		camera.update();
-
-		mapRenderer = new OrthogonalTiledMapRenderer(Assets.MAP, UNIT_SIZE, batch);
-		mapRenderer.setView(camera);
+		changeMap(map);
 
 	}
 
@@ -98,5 +87,20 @@ public class RenderingSystem extends IteratingSystem {
 
 	public OrthographicCamera getCamera() {
 		return camera;
+	}
+
+	public void changeMap(TiledMap map) {
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		worldWidth = (int) (MapUtils.size(map).x * UNIT_SIZE);
+		worldHeight = (int) (MapUtils.size(map).y * UNIT_SIZE);
+		camera = new OrthographicCamera(worldWidth, worldWidth * (h / w));
+		viewport = new FitViewport(worldWidth, worldWidth * (h / w), camera);
+		camera.position.set(1, 1, 0);//camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		camera.zoom = 0.4f;
+		camera.update();
+
+		mapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SIZE, batch);
+		mapRenderer.setView(camera);
 	}
 }

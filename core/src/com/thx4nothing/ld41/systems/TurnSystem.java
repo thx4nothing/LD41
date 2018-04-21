@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.thx4nothing.ld41.Game;
 import com.thx4nothing.ld41.components.DeckComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
+import com.thx4nothing.ld41.components.ScoreComponent;
+import com.thx4nothing.ld41.entities.Enemy;
+import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.util.Mappers;
 import com.thx4nothing.ld41.util.MyInput;
 
@@ -80,8 +83,9 @@ public class TurnSystem extends IteratingSystem {
 		int newY = (int) pos.y + y;
 		if (newX >= 0 && newX < worldWidth) {
 			Entity e = getEntityAtMapPoint(new Vector2(newX, newY));
-			if (e != null) {
-				Game.g.initBattle(e);
+			if (e != null && e instanceof Enemy) {
+				ImmutableArray<Entity> entities = Game.g.engine.getEntitiesFor(Family.one(ScoreComponent.class).get());
+				Game.g.initBattle((Player) entities.first(), (Enemy) e);
 			} else return true;
 		}
 		return false;

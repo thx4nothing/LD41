@@ -2,7 +2,6 @@ package com.thx4nothing.ld41.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.thx4nothing.ld41.Game;
 import com.thx4nothing.ld41.components.DeckComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.components.TextureComponent;
@@ -20,7 +19,5 @@ public class Enemy extends Entity {
 		add(pos);
 		add(tex);
 		add(deck);
-
-		Game.engine.addEntity(this);
 	}
 }

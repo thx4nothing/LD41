@@ -11,11 +11,13 @@ public class Assets {
 	public static TextureRegion PLAYER;
 	public static TextureRegion ENEMY;
 	public static TiledMap MAP;
+	public static TiledMap BATTLEMAP;
 
 	public static void load() {
 		AssetManager manager = Game.g.manager;
 		manager.setLoader(TiledMap.class, new TmxMapLoader());
 		manager.load("level1.tmx", TiledMap.class);
+		manager.load("battle.tmx", TiledMap.class);
 		manager.load("player.png", Texture.class);
 		manager.load("enemy.png", Texture.class);
 		manager.finishLoading();
@@ -25,6 +27,7 @@ public class Assets {
 	public static void get() {
 		AssetManager manager = Game.g.manager;
 		MAP = manager.get("level1.tmx");
+		BATTLEMAP = manager.get("battle.tmx");
 		PLAYER = new TextureRegion((Texture) manager.get("player.png"));
 		ENEMY = new TextureRegion((Texture) manager.get("enemy.png"));
 	}

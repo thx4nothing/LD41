@@ -20,6 +20,10 @@ public class DeckComponent implements Component {
 	}
 
 	public void shuffle() {
+		cards.shuffle();
+	}
 
+	public Card.Cards draw() {
+		return cards.pop();
 	}
 }
