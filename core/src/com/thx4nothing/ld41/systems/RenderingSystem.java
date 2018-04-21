@@ -10,7 +10,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.thx4nothing.ld41.components.PositionComponent;
+import com.thx4nothing.ld41.components.TextureComponent;
 import com.thx4nothing.ld41.util.Assets;
+import com.thx4nothing.ld41.util.Mappers;
 import net.dermetfan.gdx.maps.MapUtils;
 
 import java.util.Comparator;
@@ -21,14 +24,14 @@ public class RenderingSystem extends IteratingSystem {
 	private ShapeRenderer sr;
 	private Array<Entity> renderQueue;
 
-	public int worldWidth = 100;
-	public int worldHeight = 100;
+	public int worldWidth;
+	public int worldHeight;
 	private final float UNIT_SIZE = 1.0f / 32.0f;
 
 	private OrthogonalTiledMapRenderer mapRenderer;
 
-	private int[] backgroundLayers = { 0 };
-	private int[] foregroundLayers = { 1 };
+	private int[] backgroundLayers = { 0, 1 };
+	private int[] foregroundLayers = {};
 
 	private FitViewport viewport;
 	private OrthographicCamera camera;
@@ -40,7 +43,7 @@ public class RenderingSystem extends IteratingSystem {
 	};
 
 	@SuppressWarnings("unchecked") public RenderingSystem() {
-		super(Family.all().get());
+		super(Family.all(PositionComponent.class, TextureComponent.class).get());
 		this.batch = new SpriteBatch();
 		sr = new ShapeRenderer();
 		renderQueue = new Array<Entity>();
@@ -72,7 +75,16 @@ public class RenderingSystem extends IteratingSystem {
 		batch.begin();
 
 		for (Entity entity : renderQueue) {
+			TextureComponent tex = Mappers.tex.get(entity);
+			PositionComponent pos = Mappers.pos.get(entity);
+			if (tex.region == null) continue;
 
+			float width = tex.region.getRegionWidth() * UNIT_SIZE;
+			float height = tex.region.getRegionHeight() * UNIT_SIZE;
+			float originX = width * 0.25f;
+			float originY = height * 0.25f;
+
+			batch.draw(tex.region, pos.pos.x - originX, pos.pos.y, width, height);
 		}
 
 		batch.end();
