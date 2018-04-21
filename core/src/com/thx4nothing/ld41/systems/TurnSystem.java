@@ -7,7 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.thx4nothing.ld41.Game;
-import com.thx4nothing.ld41.components.DeckComponent;
+import com.thx4nothing.ld41.components.CardComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.components.ScoreComponent;
 import com.thx4nothing.ld41.entities.Enemy;
@@ -29,7 +29,7 @@ public class TurnSystem extends IteratingSystem {
 	private Random random = new Random();
 
 	public TurnSystem() {
-		super(Family.all(PositionComponent.class, DeckComponent.class).get());
+		super(Family.all(PositionComponent.class, CardComponent.class).get());
 	}
 
 	@Override protected void processEntity(Entity entity, float deltaTime) {

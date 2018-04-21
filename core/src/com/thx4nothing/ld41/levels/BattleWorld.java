@@ -3,6 +3,7 @@ package com.thx4nothing.ld41.levels;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.thx4nothing.ld41.Game;
+import com.thx4nothing.ld41.components.CardComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.systems.BattleSystem;
 import com.thx4nothing.ld41.systems.RenderingSystem;
@@ -29,6 +30,10 @@ public class BattleWorld extends Level {
 		posP.initBattle();
 		posP.pos.x = 4;
 		posP.pos.y = 1;
+		CardComponent card = Mappers.card.get(player);
+		card.printHand();
+		card.printDeck();
+
 		posP = Mappers.pos.get(enemy);
 		posP.initBattle();
 		posP.pos.x = 13;
