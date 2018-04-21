@@ -39,9 +39,9 @@ public class RenderingSystem extends IteratingSystem {
 		}
 	};
 
-	@SuppressWarnings("unchecked") public RenderingSystem(SpriteBatch batch) {
+	@SuppressWarnings("unchecked") public RenderingSystem() {
 		super(Family.all().get());
-		this.batch = batch;
+		this.batch = new SpriteBatch();
 		sr = new ShapeRenderer();
 		renderQueue = new Array<Entity>();
 
