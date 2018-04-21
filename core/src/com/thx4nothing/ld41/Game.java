@@ -1,6 +1,7 @@
 package com.thx4nothing.ld41;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.thx4nothing.ld41.levels.Level;
-import com.thx4nothing.ld41.levels.Level01;
+import com.thx4nothing.ld41.levels.OverWorld;
 import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.MyInput;
 
@@ -37,7 +38,7 @@ public class Game extends ApplicationAdapter {
 		fpslogger = new FPSLogger();
 		Gdx.input.setInputProcessor(input);
 		engine = new Engine();
-		level = new Level01();
+		level = new OverWorld();
 		level.init();
 	}
 
@@ -62,4 +63,6 @@ public class Game extends ApplicationAdapter {
 		manager.dispose();
 	}
 
+	public void initBattle(Entity e) {
+	}
 }

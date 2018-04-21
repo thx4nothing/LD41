@@ -9,6 +9,7 @@ import com.thx4nothing.ld41.Game;
 
 public class Assets {
 	public static TextureRegion PLAYER;
+	public static TextureRegion ENEMY;
 	public static TiledMap MAP;
 
 	public static void load() {
@@ -16,6 +17,7 @@ public class Assets {
 		manager.setLoader(TiledMap.class, new TmxMapLoader());
 		manager.load("level1.tmx", TiledMap.class);
 		manager.load("player.png", Texture.class);
+		manager.load("enemy.png", Texture.class);
 		manager.finishLoading();
 		get();
 	}
@@ -24,6 +26,7 @@ public class Assets {
 		AssetManager manager = Game.g.manager;
 		MAP = manager.get("level1.tmx");
 		PLAYER = new TextureRegion((Texture) manager.get("player.png"));
+		ENEMY = new TextureRegion((Texture) manager.get("enemy.png"));
 	}
 
 	public static void dispose() {

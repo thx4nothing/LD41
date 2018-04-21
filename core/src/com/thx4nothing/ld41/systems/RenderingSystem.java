@@ -54,7 +54,7 @@ public class RenderingSystem extends IteratingSystem {
 		worldHeight = (int) (MapUtils.size(Assets.MAP).y * UNIT_SIZE);
 		camera = new OrthographicCamera(worldWidth, worldWidth * (h / w));
 		viewport = new FitViewport(worldWidth, worldWidth * (h / w), camera);
-		camera.position.set(0, 0, 0);//camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		camera.position.set(1, 1, 0);//camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 		camera.zoom = 0.4f;
 		camera.update();
 
@@ -82,9 +82,9 @@ public class RenderingSystem extends IteratingSystem {
 			float width = tex.region.getRegionWidth() * UNIT_SIZE;
 			float height = tex.region.getRegionHeight() * UNIT_SIZE;
 			float originX = width * 0.25f;
-			float originY = height * 0.25f;
+			float originY = height * 0.5f;
 
-			batch.draw(tex.region, pos.pos.x - originX, pos.pos.y, width, height);
+			batch.draw(tex.region, pos.pos.x, pos.pos.y, width, height);
 		}
 
 		batch.end();
