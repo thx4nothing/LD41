@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class TurnSystem extends IteratingSystem {
 
-	public boolean update = false;
+	private boolean update = false;
 	private int worldWidth, worldHeight;
 
 	private enum Action {JUMP, DOUBLEJUMP, LEFT, RIGHT, CARD}
@@ -84,14 +84,14 @@ public class TurnSystem extends IteratingSystem {
 		if (newX >= 0 && newX < worldWidth) {
 			Entity e = getEntityAtMapPoint(new Vector2(newX, newY));
 			if (e != null && e instanceof Enemy) {
-				ImmutableArray<Entity> entities = Game.g.engine.getEntitiesFor(Family.one(ScoreComponent.class).get());
+				ImmutableArray<Entity> entities = Game.engine.getEntitiesFor(Family.one(ScoreComponent.class).get());
 				Game.g.initBattle((Player) entities.first(), (Enemy) e);
 			} else return true;
 		}
 		return false;
 	}
 
-	public Entity getEntityAtMapPoint(Vector2 vector2) {
+	private Entity getEntityAtMapPoint(Vector2 vector2) {
 		Entity e = null;
 		Vector2 pos2;
 		ImmutableArray<Entity> entities = getEngine().getEntitiesFor(Family.all(PositionComponent.class).get());

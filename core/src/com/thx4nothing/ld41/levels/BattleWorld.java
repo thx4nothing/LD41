@@ -3,9 +3,9 @@ package com.thx4nothing.ld41.levels;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.thx4nothing.ld41.Game;
-import com.thx4nothing.ld41.components.CardComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.systems.BattleSystem;
+import com.thx4nothing.ld41.systems.CardSystem;
 import com.thx4nothing.ld41.systems.RenderingSystem;
 import com.thx4nothing.ld41.systems.TurnSystem;
 import com.thx4nothing.ld41.util.Assets;
@@ -14,12 +14,12 @@ import com.thx4nothing.ld41.util.MyInput;
 
 public class BattleWorld extends Level {
 
-	private Entity player;
-	private Entity enemy;
+	public static Entity player;
+	public static Entity enemy;
 
 	public BattleWorld(Entity player, Entity enemy) {
-		this.player = player;
-		this.enemy = enemy;
+		BattleWorld.player = player;
+		BattleWorld.enemy = enemy;
 	}
 
 	@Override public void init() {
@@ -30,20 +30,29 @@ public class BattleWorld extends Level {
 		posP.initBattle();
 		posP.pos.x = 4;
 		posP.pos.y = 1;
-		CardComponent card = Mappers.card.get(player);
-		card.printHand();
-		card.printDeck();
-
 		posP = Mappers.pos.get(enemy);
 		posP.initBattle();
 		posP.pos.x = 13;
 		posP.pos.y = 1;
 		Game.engine.getSystem(BattleSystem.class).setProcessing(true);
+		Game.engine.getSystem(CardSystem.class).setProcessing(true);
 		Game.engine.getSystem(TurnSystem.class).setProcessing(false);
 	}
 
 	@Override public void update() {
 		Game.engine.update(Gdx.graphics.getDeltaTime());
 		MyInput.clear();
+	}
+
+	public static void wonBattle() {
+		//TODO: Reward
+		Game.engine.removeEntity(enemy);
+		Game.g.endBattle();
+	}
+
+	public static void lostBattle() {
+		//TODO: lose some cards
+		Game.engine.removeEntity(enemy);
+		Game.g.endBattle();
 	}
 }

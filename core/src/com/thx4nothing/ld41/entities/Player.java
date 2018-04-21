@@ -18,7 +18,6 @@ public class Player extends Entity {
 
 		pos.setPos(new Vector2(1, 1));
 		tex.region = Assets.PLAYER;
-		card.draw();
 
 		add(pos);
 		add(tex);

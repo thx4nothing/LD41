@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class BattleSystem extends IteratingSystem {
 
-	private boolean update = false;
+	private boolean playerPlayedCard = false;
 	private Random random = new Random();
 
 	public BattleSystem() {
@@ -20,23 +20,22 @@ public class BattleSystem extends IteratingSystem {
 	}
 
 	@Override protected void processEntity(Entity entity, float deltaTime) {
+		CardComponent card = Mappers.card.get(entity);
 		if (Mappers.score.has(entity)) {
-			update = false;
-			CardComponent card = Mappers.card.get(entity);
+			playerPlayedCard = false;
 			if (MyInput.isKeyJustReleased(Input.Keys.Q)) {
 				card.play(0);
-				update = true;
+				playerPlayedCard = true;
 			} else if (MyInput.isKeyJustReleased(Input.Keys.W)) {
 				card.play(1);
-				update = true;
-			} else if (MyInput.isKeyJustReleased(Input.Keys.E)) {
+				playerPlayedCard = true;
+			} else if (MyInput.isKeyJustReleased(Input.Keys.E) && !card.burn) {
 				card.play(2);
-				update = true;
+				playerPlayedCard = true;
 			}
-		} else if (update) {
-			CardComponent card = Mappers.card.get(entity);
-			card.play(random.nextInt(3));
+		} else if (playerPlayedCard) {
+			card.play(random.nextInt(card.hand.size));
 		}
-	}
 
+	}
 }

@@ -1,72 +1,48 @@
 package com.thx4nothing.ld41.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.Array;
-import com.thx4nothing.ld41.Game;
 import com.thx4nothing.ld41.cards.Card;
+import com.thx4nothing.ld41.cards.DefendCard;
+import com.thx4nothing.ld41.cards.FireballCard;
 import com.thx4nothing.ld41.cards.JumpAttackCard;
-import com.thx4nothing.ld41.entities.Enemy;
-import com.thx4nothing.ld41.entities.Player;
+
+import java.util.Random;
 
 public class CardComponent implements Component {
 	public Array<Card> deck = new Array<>();
 	public Array<Card> graveyard = new Array<>();
 	public Array<Card> hand = new Array<>();
+	public int dummyCards = 0;
+
+	public Card activeCard;
+
+	private Random random = new Random();
+	public boolean burn = false;
 
 	public CardComponent() {
 		deck.add(new JumpAttackCard());
 		deck.add(new JumpAttackCard());
 		deck.add(new JumpAttackCard());
-		shuffle();
-	}
-
-	public void shuffle() {
+		deck.add(new DefendCard());
+		deck.add(new DefendCard());
+		deck.add(new DefendCard());
+		deck.add(new FireballCard());
+		deck.add(new FireballCard());
+		deck.add(new FireballCard());
 		deck.shuffle();
 	}
 
-	public void draw() {
-		for (int i = 0; i < 3; i++) {
-			if (deck.size == 0) {
-				deck.addAll(graveyard);
-				graveyard.clear();
-				shuffle();
-				//TODO: decrease score
-			}
-			hand.add(deck.pop());
-		}
-	}
-
-	public void handToGrave() {
-		graveyard.addAll(hand);
-		hand.clear();
-	}
-
 	public void play(int i) {
-		Card card = hand.get(i);
-		handToGrave();
-		draw();
-		for (Entity e : Game.engine.getEntitiesFor(Family.all(CardComponent.class).get())) {
-			if (e.getComponent(CardComponent.class).equals(this)) {
-				if (e instanceof Player) {
-					printHand();
-					printDeck();
-					System.out.println("Player played: " + card.name);
-				} else if (e instanceof Enemy) System.out.println("Enemy played: " + card.name);
-			}
+		activeCard = hand.get(i);
+	}
+
+	public void killCardInDeck() {
+		if (dummyCards > 0) dummyCards--;
+		else if (deck.size > 0) {
+			int a = random.nextInt(deck.size);
+			deck.removeIndex(a);
 		}
-	}
-
-	public void printHand() {
-		System.out.println("Q: " + hand.get(0).name);
-		System.out.println("W: " + hand.get(1).name);
-		System.out.println("E: " + hand.get(2).name);
-	}
-
-	public void printDeck() {
-		System.out.println("Deck: " + deck.size);
-		System.out.println("Graveyard: " + graveyard.size);
 	}
 
 }

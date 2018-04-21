@@ -16,7 +16,6 @@ public class Enemy extends Entity {
 
 		pos.setPos(new Vector2(5, 1));
 		tex.region = Assets.ENEMY;
-		card.draw();
 
 		add(pos);
 		add(tex);

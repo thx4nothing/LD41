@@ -13,6 +13,9 @@ import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.levels.BattleWorld;
 import com.thx4nothing.ld41.levels.Level;
 import com.thx4nothing.ld41.levels.OverWorld;
+import com.thx4nothing.ld41.systems.BattleSystem;
+import com.thx4nothing.ld41.systems.CardSystem;
+import com.thx4nothing.ld41.systems.TurnSystem;
 import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.MyInput;
 
@@ -76,5 +79,9 @@ public class Game extends ApplicationAdapter {
 
 	public void endBattle() {
 		level = overWorld;
+		Game.engine.getSystem(BattleSystem.class).setProcessing(false);
+		Game.engine.getSystem(CardSystem.class).setProcessing(false);
+		Game.engine.getSystem(TurnSystem.class).setProcessing(true);
+
 	}
 }

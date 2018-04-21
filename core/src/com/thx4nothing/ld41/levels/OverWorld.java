@@ -5,6 +5,7 @@ import com.thx4nothing.ld41.Game;
 import com.thx4nothing.ld41.entities.Enemy;
 import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.systems.BattleSystem;
+import com.thx4nothing.ld41.systems.CardSystem;
 import com.thx4nothing.ld41.systems.RenderingSystem;
 import com.thx4nothing.ld41.systems.TurnSystem;
 import com.thx4nothing.ld41.util.Assets;
@@ -15,9 +16,13 @@ public class OverWorld extends Level {
 		RenderingSystem renderingSystem = new RenderingSystem(Assets.MAP);
 		TurnSystem turnSystem = new TurnSystem();
 		BattleSystem battleSystem = new BattleSystem();
+		CardSystem cardSystem = new CardSystem();
 		Game.engine.addSystem(renderingSystem);
 		Game.engine.addSystem(turnSystem);
 		Game.engine.addSystem(battleSystem);
+		Game.engine.addSystem(cardSystem);
+		cardSystem.setProcessing(false);
+		battleSystem.setProcessing(false);
 
 		Game.engine.addEntity(new Player());
 		Game.engine.addEntity(new Enemy());
