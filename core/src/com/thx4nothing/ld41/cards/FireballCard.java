@@ -20,7 +20,7 @@ public class FireballCard extends Card {
 		else if (entity instanceof Enemy) card = Mappers.card.get(BattleWorld.player);
 		if (card == null) return;
 		for (int i = 0; i <= level; i++)
-			card.killCardInDeck();
+			card.killCard();
 
 		card.burn = true;
 	}

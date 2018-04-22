@@ -30,7 +30,9 @@ public class CardSystem extends IteratingSystem {
 	}
 
 	private void newHand(CardComponent card) {
-		handToGrave(card);
+		if (card.deck.size == 0 && card.graveyard.size <= 2) {
+			card.graveyard.add(new LoseCard());
+		}
 		draw(card);
 	}
 
@@ -47,25 +49,17 @@ public class CardSystem extends IteratingSystem {
 					card.deck.addAll(card.graveyard);
 					card.graveyard.clear();
 					shuffle(card);
-				} else card.hand.add(new LoseCard());
+				} else break;
 			}
 			card.hand.add(card.deck.pop());
 		}
-	}
-
-	private void handToGrave(CardComponent card) {
-		card.graveyard.addAll(card.hand);
-		card.hand.clear();
 	}
 
 	private void printHand(CardComponent card) {
 		for (int i = 0; i < card.hand.size; i++) {
 			if (i == 0) System.out.println("Q: " + card.hand.get(i).name);
 			if (i == 1) System.out.println("W: " + card.hand.get(i).name);
-			if (i == 2) {
-				if (!card.burn) System.out.println("E: " + card.hand.get(i).name);
-				else System.out.println("E: Place is burned");
-			}
+			if (i == 2) System.out.println("E: " + card.hand.get(i).name);
 		}
 	}
 

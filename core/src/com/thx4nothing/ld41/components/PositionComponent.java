@@ -13,6 +13,11 @@ public class PositionComponent implements Component {
 		tempPos.y = pos.y;
 	}
 
+	public void revertBattle() {
+		pos.x = tempPos.x;
+		pos.y = tempPos.y;
+	}
+
 	public void setPos(Vector2 pos) {
 		this.pos.x = pos.x;
 		this.pos.y = pos.y;

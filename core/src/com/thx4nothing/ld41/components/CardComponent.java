@@ -3,9 +3,6 @@ package com.thx4nothing.ld41.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
 import com.thx4nothing.ld41.cards.Card;
-import com.thx4nothing.ld41.cards.DefendCard;
-import com.thx4nothing.ld41.cards.FireballCard;
-import com.thx4nothing.ld41.cards.JumpAttackCard;
 
 import java.util.Random;
 
@@ -20,29 +17,29 @@ public class CardComponent implements Component {
 	private Random random = new Random();
 	public boolean burn = false;
 
-	public CardComponent() {
-		deck.add(new JumpAttackCard());
-		deck.add(new JumpAttackCard());
-		deck.add(new JumpAttackCard());
-		deck.add(new DefendCard());
-		deck.add(new DefendCard());
-		deck.add(new DefendCard());
-		deck.add(new FireballCard());
-		deck.add(new FireballCard());
-		deck.add(new FireballCard());
-		deck.shuffle();
-	}
-
 	public void play(int i) {
 		activeCard = hand.get(i);
+		handToGrave();
 	}
 
-	public void killCardInDeck() {
+	private void handToGrave() {
+		graveyard.addAll(hand);
+		hand.clear();
+	}
+
+	public void killCard() {
 		if (dummyCards > 0) dummyCards--;
-		else if (deck.size > 0) {
+		else if (graveyard.size > 0) {
+			int a = random.nextInt(graveyard.size);
+			graveyard.removeIndex(a);
+		} else if (deck.size > 0) {
 			int a = random.nextInt(deck.size);
 			deck.removeIndex(a);
 		}
 	}
 
+	public void addCard(Card card) {
+		deck.add(card);
+		deck.shuffle();
+	}
 }

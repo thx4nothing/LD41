@@ -21,6 +21,6 @@ public class JumpAttackCard extends Card {
 		else if (entity instanceof Enemy) card = Mappers.card.get(BattleWorld.player);
 		if (card == null) return;
 		for (int i = 0; i <= level; i++)
-			card.killCardInDeck();
+			card.killCard();
 	}
 }

@@ -34,8 +34,8 @@ public class Game extends ApplicationAdapter {
 	public static MessageDispatcher dispatcher = new MessageDispatcher();
 
 	public Level level;
-	public Level battleWorld;
-	public Level overWorld;
+	public BattleWorld battleWorld;
+	public OverWorld overWorld;
 
 	@Override public void create() {
 		g = this;
@@ -78,10 +78,8 @@ public class Game extends ApplicationAdapter {
 	}
 
 	public void endBattle() {
+		overWorld.returnFromBattle();
 		level = overWorld;
-		Game.engine.getSystem(BattleSystem.class).setProcessing(false);
-		Game.engine.getSystem(CardSystem.class).setProcessing(false);
-		Game.engine.getSystem(TurnSystem.class).setProcessing(true);
 
 	}
 }
