@@ -2,20 +2,24 @@ package com.thx4nothing.ld41.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.systems.IntervalIteratingSystem;
 import com.thx4nothing.ld41.cards.LoseCard;
 import com.thx4nothing.ld41.components.CardComponent;
 import com.thx4nothing.ld41.entities.Enemy;
 import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.util.Mappers;
 
-public class CardSystem extends IteratingSystem {
+public class CardSystem extends IntervalIteratingSystem {
 
-	public CardSystem() {
-		super(Family.all(CardComponent.class).get());
+	public int tick = 0;
+
+	public CardSystem(float interval) {
+		super(Family.all(CardComponent.class).get(), interval);
 	}
 
-	@Override protected void processEntity(Entity entity, float deltaTime) {
+
+
+	@Override protected void processEntity(Entity entity) {
 		CardComponent card = Mappers.card.get(entity);
 		if (card.hand.size == 0) newHand(card);
 		if (card.activeCard != null) {

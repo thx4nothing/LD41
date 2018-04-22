@@ -22,7 +22,7 @@ public class OverWorld extends Level {
 		RenderingSystem renderingSystem = new RenderingSystem(Assets.MAP);
 		TurnSystem turnSystem = new TurnSystem();
 		BattleSystem battleSystem = new BattleSystem();
-		CardSystem cardSystem = new CardSystem();
+		CardSystem cardSystem = new CardSystem(2);
 		Game.engine.addSystem(renderingSystem);
 		Game.engine.addSystem(turnSystem);
 		Game.engine.addSystem(battleSystem);

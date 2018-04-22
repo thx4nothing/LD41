@@ -7,6 +7,7 @@ public class PositionComponent implements Component {
 
 	public final Vector2 pos = new Vector2();
 	public final Vector2 tempPos = new Vector2();
+	public float timer = 1;
 
 	public void initBattle() {
 		tempPos.x = pos.x;

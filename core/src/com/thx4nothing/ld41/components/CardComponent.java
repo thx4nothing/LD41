@@ -10,6 +10,9 @@ public class CardComponent implements Component {
 	public Array<Card> deck = new Array<>();
 	public Array<Card> graveyard = new Array<>();
 	public Array<Card> hand = new Array<>();
+
+	public Array<Card> overHand = new Array<>();
+
 	public int dummyCards = 0;
 
 	public Card activeCard;
@@ -41,5 +44,13 @@ public class CardComponent implements Component {
 	public void addCard(Card card) {
 		deck.add(card);
 		deck.shuffle();
+	}
+
+	public void newOverHand() {
+		overHand.clear();
+		int a = random.nextInt(deck.size);
+		overHand.add(deck.get(a));
+		a = random.nextInt(deck.size);
+		overHand.add(deck.get(a));
 	}
 }

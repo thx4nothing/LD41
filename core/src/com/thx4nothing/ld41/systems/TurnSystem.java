@@ -19,9 +19,6 @@ import java.util.Random;
 
 public class TurnSystem extends IteratingSystem {
 
-	private boolean update = false;
-	private int worldWidth, worldHeight;
-
 	private enum Action {JUMP, DOUBLEJUMP, LEFT, RIGHT, CARD}
 
 	private Action lastAction;
@@ -33,59 +30,67 @@ public class TurnSystem extends IteratingSystem {
 	}
 
 	@Override protected void processEntity(Entity entity, float deltaTime) {
-		if (Mappers.score.has(entity)) {
-			update = false;
+		if (entity instanceof Player) {
 			PositionComponent pos = Mappers.pos.get(entity);
+			CardComponent card = Mappers.card.get(entity);
 			if (MyInput.isKeyJustReleased(Input.Keys.D)) {
-				if (move(pos.pos, 1, 0)) {
+				if (canMove(pos.pos, 1, 0)) {
 					pos.pos.x++;
 					lastAction = Action.RIGHT;
-					update = true;
 				}
 			} else if (MyInput.isKeyJustReleased(Input.Keys.A)) {
-				if (move(pos.pos, -1, 0)) {
+				if (canMove(pos.pos, -1, 0)) {
 					pos.pos.x--;
 					lastAction = Action.LEFT;
-					update = true;
 				}
 			} else if (MyInput.isKeyJustReleased((Input.Keys.W))) {
 				if (lastAction == Action.JUMP) {
-					if (move(pos.pos, 0, 1)) {
+					if (canMove(pos.pos, 0, 1)) {
 						pos.pos.y++;
 						lastAction = Action.DOUBLEJUMP;
-						update = true;
 					}
 				} else if (lastAction != Action.DOUBLEJUMP && lastAction != Action.JUMP) {
-					if (move(pos.pos, 0, 1)) {
+					if (canMove(pos.pos, 0, 1)) {
 						pos.pos.y++;
 						lastAction = Action.JUMP;
-						update = true;
 					}
 				}
+			} else if (MyInput.isKeyJustReleased(Input.Keys.Q)) {
+				card.newOverHand();
+				lastAction = Action.CARD;
+			} else if (MyInput.isKeyJustReleased(Input.Keys.E)) {
+				card.newOverHand();
+				lastAction = Action.CARD;
 			}
-			if (update) {
-				Game.engine.getSystem(RenderingSystem.class).getCamera().position.set(pos.pos.x, pos.pos.y, 0);
-			}
-		} else if (update) {
+
+			Game.engine.getSystem(RenderingSystem.class).getCamera().position.set(pos.pos.x, pos.pos.y, 0);
+		}
+		if (entity instanceof Enemy) {
 			PositionComponent pos = Mappers.pos.get(entity);
-			int x = random.nextInt(3) - 1;
-			if (move(pos.pos, x, 0)) {
-				pos.pos.x += x;
+			pos.timer -= deltaTime;
+			if (pos.timer < 0) {
+				int x = random.nextInt(3) - 1;
+				if (canMove(pos.pos, x, 0)) {
+					pos.pos.x += x;
+				}
+				pos.timer = 1;
 			}
 		}
 
 	}
 
-	private boolean move(Vector2 pos, int x, int y) {
-		worldHeight = Game.engine.getSystem(RenderingSystem.class).worldHeight;
-		worldWidth = Game.engine.getSystem(RenderingSystem.class).worldWidth;
+	private boolean canMove(Vector2 pos, int x, int y) {
+		int worldHeight = Game.engine.getSystem(RenderingSystem.class).worldHeight;
+		int worldWidth = Game.engine.getSystem(RenderingSystem.class).worldWidth;
 		int newX = (int) pos.x + x;
 		int newY = (int) pos.y + y;
 		if (newX >= 0 && newX < worldWidth) {
 			Entity e = getEntityAtMapPoint(new Vector2(newX, newY));
-			if (e != null && e instanceof Enemy) {
-				ImmutableArray<Entity> entities = Game.engine.getEntitiesFor(Family.one(ScoreComponent.class).get());
-				Game.g.initBattle((Player) entities.first(), (Enemy) e);
+			if (e != null) {
+				if (e instanceof Enemy && (newX != pos.x || newY != pos.y)) {
+					ImmutableArray<Entity> entities = Game.engine.getEntitiesFor(Family.one(ScoreComponent.class).get());
+					Game.g.initBattle((Player) entities.first(), (Enemy) e);
+				} else if (e instanceof Player) return false;
 			} else return true;
 		}
 		return false;
