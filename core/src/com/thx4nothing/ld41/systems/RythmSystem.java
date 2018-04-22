@@ -11,7 +11,7 @@ public class RythmSystem extends IntervalSystem {
 	}
 
 	@Override protected void updateInterval() {
-		if (tick >= 0 && tick <= 2) tick++;
+		if (tick >= 0 && tick < 2) tick++;
 		else tick = 0;
 
 	}

@@ -31,7 +31,7 @@ public class BattleSystem extends IteratingSystem {
 				card.play(2);
 			}
 		} else if (entity instanceof Enemy && card.activeCard == null) {
-			card.play(random.nextInt(card.hand.size));
+			if (card.hand.size != 0) card.play(random.nextInt(card.hand.size));
 		}
 
 	}

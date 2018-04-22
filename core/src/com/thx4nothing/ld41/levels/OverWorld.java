@@ -5,10 +5,7 @@ import com.thx4nothing.ld41.Game;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.entities.Enemy;
 import com.thx4nothing.ld41.entities.Player;
-import com.thx4nothing.ld41.systems.BattleSystem;
-import com.thx4nothing.ld41.systems.CardSystem;
-import com.thx4nothing.ld41.systems.RenderingSystem;
-import com.thx4nothing.ld41.systems.TurnSystem;
+import com.thx4nothing.ld41.systems.*;
 import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.Mappers;
 import com.thx4nothing.ld41.util.MyInput;
@@ -23,12 +20,15 @@ public class OverWorld extends Level {
 		TurnSystem turnSystem = new TurnSystem();
 		BattleSystem battleSystem = new BattleSystem();
 		CardSystem cardSystem = new CardSystem(2);
+		RythmSystem rythmSystem = new RythmSystem(2);
 		Game.engine.addSystem(renderingSystem);
 		Game.engine.addSystem(turnSystem);
-		Game.engine.addSystem(battleSystem);
 		Game.engine.addSystem(cardSystem);
+		Game.engine.addSystem(rythmSystem);
+		Game.engine.addSystem(battleSystem);
 		cardSystem.setProcessing(false);
 		battleSystem.setProcessing(false);
+		rythmSystem.setProcessing(false);
 
 		player = new Player();
 		enemy = new Enemy();
@@ -50,5 +50,6 @@ public class OverWorld extends Level {
 		Game.engine.getSystem(BattleSystem.class).setProcessing(false);
 		Game.engine.getSystem(CardSystem.class).setProcessing(false);
 		Game.engine.getSystem(TurnSystem.class).setProcessing(true);
+		Game.engine.getSystem(RythmSystem.class).setProcessing(false);
 	}
 }

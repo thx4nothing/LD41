@@ -46,11 +46,13 @@ public class CardComponent implements Component {
 		deck.shuffle();
 	}
 
-	public void newOverHand() {
-		overHand.clear();
+	public void newHand() {
+		hand.clear();
 		int a = random.nextInt(deck.size);
-		overHand.add(deck.get(a));
+		hand.add(deck.get(a));
+		deck.removeIndex(a);
 		a = random.nextInt(deck.size);
-		overHand.add(deck.get(a));
+		hand.add(deck.get(a));
+		deck.removeIndex(a);
 	}
 }

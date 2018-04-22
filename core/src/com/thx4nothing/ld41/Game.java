@@ -13,9 +13,6 @@ import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.levels.BattleWorld;
 import com.thx4nothing.ld41.levels.Level;
 import com.thx4nothing.ld41.levels.OverWorld;
-import com.thx4nothing.ld41.systems.BattleSystem;
-import com.thx4nothing.ld41.systems.CardSystem;
-import com.thx4nothing.ld41.systems.TurnSystem;
 import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.MyInput;
 
@@ -46,7 +43,8 @@ public class Game extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(input);
 		engine = new Engine();
 		overWorld = new OverWorld();
-		level = overWorld;
+		battleWorld = new BattleWorld(new Player(), new Enemy());
+		level = battleWorld;
 		level.init();
 	}
 

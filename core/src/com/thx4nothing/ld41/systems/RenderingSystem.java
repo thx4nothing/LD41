@@ -11,8 +11,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.thx4nothing.ld41.Game;
+import com.thx4nothing.ld41.components.CardComponent;
 import com.thx4nothing.ld41.components.PositionComponent;
 import com.thx4nothing.ld41.components.TextureComponent;
+import com.thx4nothing.ld41.entities.Enemy;
+import com.thx4nothing.ld41.entities.Player;
+import com.thx4nothing.ld41.util.Assets;
 import com.thx4nothing.ld41.util.Mappers;
 import net.dermetfan.gdx.maps.MapUtils;
 
@@ -74,8 +79,36 @@ public class RenderingSystem extends IteratingSystem {
 			float originY = height * 0.5f;
 
 			batch.draw(tex.region, pos.pos.x, pos.pos.y, width, height);
-		}
 
+			if (entity instanceof Enemy) {
+				width = Assets.CARDBACK.getRegionWidth() * UNIT_SIZE;
+				height = Assets.CARDBACK.getRegionHeight() * UNIT_SIZE;
+				//13,4
+				for (int i = 0; i < 3; i++) {
+					batch.draw(Assets.CARDBACK, 15 + i, 3, width, height);
+				}
+				CardComponent card = Mappers.card.get(entity);
+				if (card.activeCard != null) {
+					batch.draw(Assets.CARDFRONT, 11, 4, width, height);
+				}
+			} else if (entity instanceof Player) {
+				width = Assets.CARDFRONT.getRegionWidth() * UNIT_SIZE;
+				height = Assets.CARDFRONT.getRegionHeight() * UNIT_SIZE;
+				//13,4
+				for (int i = 0; i < 3; i++) {
+					batch.draw(Assets.CARDFRONT, 3 + i, 3, width, height);
+				}
+				CardComponent card = Mappers.card.get(entity);
+				if (card.activeCard != null) {
+					batch.draw(Assets.CARDFRONT, 9, 4, width, height);
+				}
+			}
+		}
+		float width = Assets.TICK0.getRegionWidth() * UNIT_SIZE;
+		float height = Assets.TICK0.getRegionHeight() * UNIT_SIZE;
+		if (Game.engine.getSystem(RythmSystem.class).tick == 0) batch.draw(Assets.TICK0, 10 + 0.25f, 8 - 0.75f, width, height);
+		if (Game.engine.getSystem(RythmSystem.class).tick == 1) batch.draw(Assets.TICK1, 10 + 0.25f, 8 - 0.75f, width, height);
+		if (Game.engine.getSystem(RythmSystem.class).tick == 2) batch.draw(Assets.TICK2, 10 + 0.25f, 8 - 0.75f, width, height);
 		batch.end();
 		renderQueue.clear();
 		mapRenderer.render(foregroundLayers);

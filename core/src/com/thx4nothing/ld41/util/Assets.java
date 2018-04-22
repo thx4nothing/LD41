@@ -12,6 +12,11 @@ public class Assets {
 	public static TextureRegion ENEMY;
 	public static TiledMap MAP;
 	public static TiledMap BATTLEMAP;
+	public static TextureRegion TICK0;
+	public static TextureRegion TICK1;
+	public static TextureRegion TICK2;
+	public static TextureRegion CARDBACK;
+	public static TextureRegion CARDFRONT;
 
 	public static void load() {
 		AssetManager manager = Game.g.manager;
@@ -20,6 +25,11 @@ public class Assets {
 		manager.load("battle.tmx", TiledMap.class);
 		manager.load("player.png", Texture.class);
 		manager.load("enemy.png", Texture.class);
+		manager.load("tick0.png", Texture.class);
+		manager.load("tick1.png", Texture.class);
+		manager.load("tick2.png", Texture.class);
+		manager.load("cardFront.png", Texture.class);
+		manager.load("cardBack.png", Texture.class);
 		manager.finishLoading();
 		get();
 	}
@@ -30,6 +40,11 @@ public class Assets {
 		BATTLEMAP = manager.get("battle.tmx");
 		PLAYER = new TextureRegion((Texture) manager.get("player.png"));
 		ENEMY = new TextureRegion((Texture) manager.get("enemy.png"));
+		TICK0 = new TextureRegion((Texture) manager.get("tick0.png"));
+		TICK1 = new TextureRegion((Texture) manager.get("tick1.png"));
+		TICK2 = new TextureRegion((Texture) manager.get("tick2.png"));
+		CARDBACK = new TextureRegion((Texture) manager.get("cardBack.png"));
+		CARDFRONT = new TextureRegion((Texture) manager.get("cardFront.png"));
 	}
 
 	public static void dispose() {

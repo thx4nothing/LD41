@@ -56,14 +56,12 @@ public class TurnSystem extends IteratingSystem {
 					}
 				}
 			} else if (MyInput.isKeyJustReleased(Input.Keys.Q)) {
-				card.newOverHand();
 				lastAction = Action.CARD;
 			} else if (MyInput.isKeyJustReleased(Input.Keys.E)) {
-				card.newOverHand();
 				lastAction = Action.CARD;
 			}
 
-			Game.engine.getSystem(RenderingSystem.class).getCamera().position.set(pos.pos.x, pos.pos.y, 0);
+			//Game.engine.getSystem(RenderingSystem.class).getCamera().position.set(pos.pos.x, pos.pos.y, 0);
 		}
 		if (entity instanceof Enemy) {
 			PositionComponent pos = Mappers.pos.get(entity);
