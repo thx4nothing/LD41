@@ -9,19 +9,22 @@ import com.thx4nothing.ld41.entities.Enemy;
 import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.util.Mappers;
 
+import java.util.Random;
+
 public class CardSystem extends IntervalIteratingSystem {
 
 	public int tick = 0;
+
+	private Random random = new Random();
 
 	public CardSystem(float interval) {
 		super(Family.all(CardComponent.class).get(), interval);
 	}
 
-
-
 	@Override protected void processEntity(Entity entity) {
 		CardComponent card = Mappers.card.get(entity);
 		if (card.hand.size == 0) newHand(card);
+
 		if (card.activeCard != null) {
 			card.activeCard.doEffect(entity);
 			if (entity instanceof Player) System.out.println("Player played: " + card.activeCard.name);
@@ -30,6 +33,10 @@ public class CardSystem extends IntervalIteratingSystem {
 			newHand(card);
 			if (entity instanceof Player) printHand(card);
 			if (entity instanceof Player) printDeck(card);
+		}
+		if (entity instanceof Enemy && card.activeCard == null) {
+			if (card.playedCard) card.playedCard = false;
+			else card.play(random.nextInt(card.hand.size));
 		}
 	}
 

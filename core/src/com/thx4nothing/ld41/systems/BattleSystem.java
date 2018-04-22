@@ -5,16 +5,11 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.thx4nothing.ld41.components.CardComponent;
-import com.thx4nothing.ld41.entities.Enemy;
 import com.thx4nothing.ld41.entities.Player;
 import com.thx4nothing.ld41.util.Mappers;
 import com.thx4nothing.ld41.util.MyInput;
 
-import java.util.Random;
-
 public class BattleSystem extends IteratingSystem {
-
-	private Random random = new Random();
 
 	public BattleSystem() {
 		super(Family.all(CardComponent.class).get());
@@ -30,8 +25,6 @@ public class BattleSystem extends IteratingSystem {
 			} else if (MyInput.isKeyJustReleased(Input.Keys.E) && !card.burn) {
 				card.play(2);
 			}
-		} else if (entity instanceof Enemy && card.activeCard == null) {
-			if (card.hand.size != 0) card.play(random.nextInt(card.hand.size));
 		}
 
 	}

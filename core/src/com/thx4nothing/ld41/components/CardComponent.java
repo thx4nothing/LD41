@@ -20,9 +20,12 @@ public class CardComponent implements Component {
 	private Random random = new Random();
 	public boolean burn = false;
 
+	public boolean playedCard = false;
+
 	public void play(int i) {
 		activeCard = hand.get(i);
 		handToGrave();
+		playedCard = true;
 	}
 
 	private void handToGrave() {
