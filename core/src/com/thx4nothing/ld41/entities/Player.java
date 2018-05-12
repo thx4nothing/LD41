@@ -32,8 +32,6 @@ public class Player extends Entity {
 		card.addCard(new DefendCard());
 		card.addCard(new DefendCard());
 
-		card.newHand();
-
 		add(pos);
 		add(tex);
 		add(card);
